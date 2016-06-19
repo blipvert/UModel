@@ -9,6 +9,12 @@
 #include <io.h>					// for _filelengthi64
 #endif
 
+#ifdef DARWIN
+#define fopen64 fopen
+#define fseek64 fseek
+#define fseeko64 fseeko
+#define ftello64 ftello
+#endif
 
 #define FILE_BUFFER_SIZE		4096
 
