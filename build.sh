@@ -33,14 +33,20 @@ last_revision=${last_revision##* }		# cut "#define ..."
 
 #-------------------------------------------------------------
 
-PLATFORM="vc-win32"
+#PLATFORM="vc-win32"
 #PLATFORM="vc-win64"
 #PLATFORM="mingw32" - not implemented yet
 
 # force PLATFORM=linux under Linux OS
 #?? check this, when cross-compile under wine
-[ "$OSTYPE" == "linux-gnu" ] || [ "$OSTYPE" == "linux" ] && PLATFORM="linux"
+#[ "$OSTYPE" == "linux-gnu" ] || [ "$OSTYPE" == "linux" ] && PLATFORM="linux"
 #[ "$PLATFORM" == "linux" ] && PLATFORM="linux64"
+
+case "$OSTYPE" in
+	linux|linux-gnu) PLATFORM=linux;;
+	darwin*) PLATFORM=darwin;;
+	*) PLATFORM=vc-win32;;
+esac
 
 # allow platform overriding from command line
 [ "$1" ] && PLATFORM=$1
@@ -80,6 +86,9 @@ case "$PLATFORM" in
 		;;
 	linux*)
 		make -j 4 -f $makefile || exit 1	# use 4 jobs for build
+		;;
+	darwin*)
+		gmake -f $makefile || exit 1
 		;;
 	*)
 		echo "Unknown PLATFORM=\"$PLATFORM\""
