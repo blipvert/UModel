@@ -35,7 +35,7 @@ WARNINGS   =				# warnings for our source code (i.e. excluding thirs-parties), e
 	!endif
 !endif
 
-!if "$COMPILER" eq "GnuC"
+!if ("$COMPILER" eq "GnuC") || ("$COMPILER" eq "CLang")
 	# linux/cygwin + GCC
 	STDLIBS   = stdc++ m GL 							# libm for math.h functions
 	!if "$PLATFORM" ne "cygwin"
