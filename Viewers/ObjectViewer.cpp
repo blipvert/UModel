@@ -45,7 +45,7 @@ void CObjectViewer::ProcessKey(int key)
 	guard(CObjectViewer::ProcessKey);
 	if (!Object) return;
 
-	switch (key)
+	switch ((unsigned)key)
 	{
 	case 'x'|KEY_CTRL:
 		Export();

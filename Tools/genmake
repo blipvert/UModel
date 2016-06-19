@@ -475,6 +475,7 @@ sub InitCompiler {
 			$COMPILER = "CLang";
 			$PLATFORM = "unix64";
                         $vars{INCLUDES} = '/opt/local/include';
+                        $vars{LIBRARIES} = '/opt/local/lib';
 		} else {
 			Error ("Unknown TARGET: \"$TARGET\"");
 		}
@@ -692,7 +693,7 @@ sub AddObjectList {
 				if ($opt eq "1" || $opt eq "") {
 					# use compiler defaults
 				} elsif ($opt eq "0") {
-					$options .= " -fno-rtti -fno-exceptions";
+					$options .= " --std=c++0x -fno-rtti -fno-exceptions";
 				} else {
 					WarningOnce ("unknown CPP_EXCEPT option: [$opt]");
 				}

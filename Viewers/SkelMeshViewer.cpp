@@ -510,7 +510,7 @@ void CSkelMeshViewer::ProcessKey(int key)
 	float		Rate;
 	MeshInst->GetAnimParams(0, AnimName, Frame, NumFrames, Rate);
 
-	switch (key)
+	switch ((unsigned)key)
 	{
 	// animation control
 	case '[':

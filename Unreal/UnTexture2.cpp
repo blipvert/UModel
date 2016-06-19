@@ -177,7 +177,7 @@ static bool ReadXprFile(const CGameFileInfo *file)
 		Ar->Seek(Entry->DataOffset);
 		int id;
 		*Ar << id;
-		switch (id)
+		switch ((unsigned)id)
 		{
 		case 0x80020001:
 			// header is 4 dwords + immediately followed data

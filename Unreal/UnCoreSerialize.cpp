@@ -9,7 +9,7 @@
 #include <io.h>					// for _filelengthi64
 #endif
 
-#ifdef DARWIN
+#if __APPLE__
 #define fopen64 fopen
 #define fseek64 fseek
 #define fseeko64 fseeko

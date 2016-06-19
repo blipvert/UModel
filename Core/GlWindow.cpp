@@ -1217,7 +1217,7 @@ void CApplication::ProcessKey(int key, bool isDown)
 	if (!isDown)
 		return;
 
-	switch (key)
+	switch ((unsigned)key)
 	{
 	case SDLK_ESCAPE:
 		RequestingQuit = true;

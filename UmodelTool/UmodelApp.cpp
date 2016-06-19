@@ -494,7 +494,7 @@ void CUmodelApp::ProcessKey(int key, bool isDown)
 		return;
 	}
 
-	switch (key)
+	switch ((unsigned)key)
 	{
 	case SPEC_KEY(PAGEDOWN):
 	case SPEC_KEY(PAGEUP):

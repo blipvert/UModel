@@ -109,7 +109,7 @@ void CStatMeshViewer::ProcessKey(int key)
 
 	CStatMeshInstance *MeshInst = static_cast<CStatMeshInstance*>(Inst);
 
-	switch (key)
+	switch ((unsigned)key)
 	{
 	case 'l':
 		if (++MeshInst->LodNum >= Mesh->Lods.Num())

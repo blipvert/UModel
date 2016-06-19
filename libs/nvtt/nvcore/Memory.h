@@ -16,6 +16,11 @@
 #	define FORCEINLINE		inline __attribute__((always_inline))
 #endif
 
+#if __clang__
+#	define FORCEINLINEOPERATOR
+#else
+#	define FORCEINLINEOPERATOR FORCEINLINE
+#endif
 
 #if UMODEL
 void* appMalloc(int size, int alignment = 8);
@@ -60,7 +65,11 @@ namespace nv
 
 // Override new/delete
 
+#if __APPLE__
+_LIBCPP_NEW_DELETE_VIS void* operator new(std::size_t size)
+#else
 FORCEINLINE void * operator new (size_t size) throw()
+#endif
 {
 #if UMODEL
 	return appMalloc(size);
@@ -69,7 +78,7 @@ FORCEINLINE void * operator new (size_t size) throw()
 #endif
 }
 
-FORCEINLINE void operator delete (void *p) throw()
+FORCEINLINEOPERATOR void operator delete (void *p) throw()
 {
 #if UMODEL
 	return appFree(p);
@@ -78,7 +87,11 @@ FORCEINLINE void operator delete (void *p) throw()
 #endif
 }
 
-FORCEINLINE void * operator new [] (size_t size) throw()
+#if __APPLE__
+_LIBCPP_NEW_DELETE_VIS void* operator new[](std::size_t size)
+#else
+void * operator new [] (size_t size) throw()
+#endif
 {
 #if UMODEL
 	return appMalloc(size);
@@ -87,7 +100,7 @@ FORCEINLINE void * operator new [] (size_t size) throw()
 #endif
 }
 
-FORCEINLINE void operator delete [] (void * p) throw()
+FORCEINLINEOPERATOR void operator delete [] (void * p) throw()
 {
 #if UMODEL
 	return appFree(p);
