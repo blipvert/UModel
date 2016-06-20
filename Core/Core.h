@@ -85,7 +85,8 @@ template<>    struct CompileTimeError<true> {};
 
 #define staticAssert(expr,name)			static_assert(expr, "Static assertion failed " #expr ": " #name)
 
-#elif (__GNUC__ > 4) || ((__GNUC__ == 4) && ((__GNUC_MINOR__ >= 3)) || __clang__)
+#elif (__clang__ && __has_feature(cxx_static_assert)) || \
+	(__GNUC__ > 4) || ((__GNUC__ == 4) && ((__GNUC_MINOR__ >= 3)))
 
 #define staticAssert(expr,name)			static_assert(expr, #name)
 
