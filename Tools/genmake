@@ -54,7 +54,7 @@ defined(var)         will be replaced with 0 or 1
 3. System variables:
 
 platform specification:
-	PLATFORM	= win32 | win64 | cygwin | unix | unix32 | unix64
+	PLATFORM	= win32 | win64 | cygwin | unix | unix32 | unix64 | osx64
 	COMPILER	= VisualC | GnuC
 	TARGET		= vc-win32 | vc-win64 | mingw32 | cygwin | linux | linux32 | linux64
 		Should specify either "TARGET" or "PLATFORM"+"COMPILER"
@@ -473,7 +473,7 @@ sub InitCompiler {
 			$PLATFORM = "unix64";
 		} elsif ($TARGET eq "darwin") {
 			$COMPILER = "CLang";
-			$PLATFORM = "unix64";
+			$PLATFORM = "osx64";
                         $vars{INCLUDES} = '/opt/local/include';
                         $vars{LIBRARIES} = '/opt/local/lib';
 		} else {
@@ -500,6 +500,8 @@ sub InitCompiler {
 			$COMPILER = "GnuC";
 		} elsif ($PLATFORM eq "unix" || $PLATFORM eq "unix32" || $PLATFORM eq "unix64") {
 			$COMPILER = "GnuC";
+		} elsif ($PLATFORM eq "osx64") {
+			$COMPILER = "CLang";
 		} else {
 			Error ("Unknown PLATFORM: \"$PLATFORM\"");
 		}
@@ -516,12 +518,13 @@ sub InitCompiler {
 	if ($PLATFORM eq "unix" || $PLATFORM eq "unix32" || $PLATFORM eq "unix64") {
 		$ObjFileExt = ".o";
 		$LibFileExt = ".a";
-		$ExeFileExt = "";
-                if ($TARGET eq "darwin") {
-                        $DllFileExt = ".dylib";
-                } else {
-                        $DllFileExt = ".so";
-                }
+                $ExeFileExt = "";
+                $DllFileExt = ".so";
+        } elsif ($PLATFORM eq "osx64") {
+		$ObjFileExt = ".o";
+		$LibFileExt = ".a";
+                $ExeFileExt = "_osx";
+                $DllFileExt = ".dylib";
 	} elsif ($PLATFORM eq "win32" || $PLATFORM eq "win64" || $PLATFORM eq "cygwin") {
 		$ObjFileExt = ".obj";
 		$LibFileExt = ".lib";
@@ -1083,7 +1086,7 @@ sub FlushObjectFile {
 		if ($srcType eq "asm") {
 			my $tgt = "elf";		#?? linux: check this
 			$tgt = "coff" if $PLATFORM eq "win32";
-                        $tgt = "macho" if $TARGET eq "darwin";
+                        $tgt = "macho" if $PLATFORM eq "osx64";
 			$line = "nasm -f $tgt -i $srcDir -o \"$objFile\"";
 		} elsif ($srcType eq "rc") {
 			$line .= "windres -O coff -I $srcDir -o $objFile";
