@@ -182,12 +182,6 @@ typedef unsigned long long		uint64;
 
 #endif
 
-#if __clang__
-#	define FORCEINLINEOPERATOR FORCEINLINE
-#else
-#	define FORCEINLINEOPERATOR FORCEINLINE
-#endif
-
 // necessary types
 typedef unsigned char			byte;
 
@@ -318,28 +312,28 @@ void* appMalloc(int size, int alignment = 8);
 void* appRealloc(void *ptr, int newSize);
 void appFree(void *ptr);
 
-FORCEINLINEOPERATOR void* operator new(size_t size)
+FORCEINLINE void* operator new(size_t size)
 {
 	return appMalloc(size);
 }
 
-FORCEINLINEOPERATOR void* operator new[](size_t size)
+FORCEINLINE void* operator new[](size_t size)
 {
 	return appMalloc(size);
 }
 
-FORCEINLINEOPERATOR void operator delete(void* ptr)
+FORCEINLINE void operator delete(void* ptr)
 {
 	appFree(ptr);
 }
 
-FORCEINLINEOPERATOR void operator delete[](void* ptr)
+FORCEINLINE void operator delete[](void* ptr)
 {
 	appFree(ptr);
 }
 
 // inplace new
-FORCEINLINEOPERATOR void* operator new(size_t /*size*/, void* ptr)
+FORCEINLINE void* operator new(size_t /*size*/, void* ptr)
 {
 	return ptr;
 }

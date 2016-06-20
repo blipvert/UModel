@@ -1659,7 +1659,7 @@ protected:
 };
 
 template<typename T>
-FORCEINLINEOPERATOR void* operator new(size_t size, TArray<T> &Array)
+FORCEINLINE void* operator new(size_t size, TArray<T> &Array)
 {
 	guard(TArray::operator new);
 	assert(size == sizeof(T));

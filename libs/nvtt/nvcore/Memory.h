@@ -16,12 +16,6 @@
 #	define FORCEINLINE		inline __attribute__((always_inline))
 #endif
 
-#if __clang__
-#	define FORCEINLINEOPERATOR FORCEINLINE
-#else
-#	define FORCEINLINEOPERATOR FORCEINLINE
-#endif
-
 #if UMODEL
 void* appMalloc(int size, int alignment = 8);
 void* appRealloc(void *ptr, int newSize);
@@ -78,7 +72,7 @@ FORCEINLINE void * operator new (size_t size) throw()
 #endif
 }
 
-FORCEINLINEOPERATOR void operator delete (void *p) throw()
+FORCEINLINE void operator delete (void *p) throw()
 {
 #if UMODEL
 	return appFree(p);
@@ -100,7 +94,7 @@ void * operator new [] (size_t size) throw()
 #endif
 }
 
-FORCEINLINEOPERATOR void operator delete [] (void * p) throw()
+FORCEINLINE void operator delete [] (void * p) throw()
 {
 #if UMODEL
 	return appFree(p);
