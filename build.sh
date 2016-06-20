@@ -64,24 +64,29 @@ fi
 
 # update makefile when needed
 # [ $makefile -ot $project ] &&
-$root/Tools/genmake $project.project TARGET=$PLATFORM > $makefile
+$root/Tools/genmake $project.project TARGET=$PLATFORM > Makefile
 
 # build
 case "$PLATFORM" in
 	"vc-win32")
-		vc32tools --make $makefile || exit 1
+		vc32tools --make Makefile || exit 1
 		;;
 	"vc-win64")
-		vc32tools --64 --make $makefile || exit 1
+		vc32tools --64 --make Makefile || exit 1
 		;;
 	"mingw32"|"cygwin")
 		PATH=/bin:/usr/bin:$PATH			# configure paths for Cygwin
-		gccfilt make -f $makefile || exit 1
+		gccfilt make -f Makefile || exit 1
 		;;
 	linux*)
-		make -j 4 -f $makefile || exit 1	# use 4 jobs for build
+		make -j 4 -f Makefile || exit 1	# use 4 jobs for build
+		;;
+	darwin*)
+		gmake -f Makefile || exit 1
 		;;
 	*)
 		echo "Unknown PLATFORM=\"$PLATFORM\""
 		exit 1
 esac
+
+cp Makefile $makefile
