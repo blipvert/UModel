@@ -24,3 +24,9 @@ umodel.pdb
 Tools/**/*.exe
 Tools/**/*.pdb
 Docs/ObjectVersion.h
+
+/umodel
+/umodel_osx
+/umodel.exe
+/makefile-*
+/Makefile
