@@ -557,7 +557,7 @@ sub EmitCompilerDefs {
 		print "AR   = ar -rcs\n";					# r=(replace files), c=(create archive), s=(write object file index)
 	} elsif ($COMPILER eq "CLang") {
 		print "CPP  = clang -pipe -c\n";
-		print "LINK = clang -pipe -s\n";
+		print "LINK = clang\n";
 		print "AR   = ar -rcs\n";					# r=(replace files), c=(create archive), s=(write object file index)
         }
 	print "\n";
@@ -689,11 +689,12 @@ sub AddObjectList {
 			}
 			# C++ exceptions
 			if ($src !~ /\.c$/) {
+                                $options .= " --std=c++0x";
 				$opt = GetSrcOption ("CPP_EXCEPT");
 				if ($opt eq "1" || $opt eq "") {
 					# use compiler defaults
 				} elsif ($opt eq "0") {
-					$options .= " --std=c++0x -fno-rtti -fno-exceptions";
+					$options .= " -fno-rtti -fno-exceptions";
 				} else {
 					WarningOnce ("unknown CPP_EXCEPT option: [$opt]");
 				}
@@ -1277,7 +1278,7 @@ sub FlushTargetText {
 		if ($crt eq "static") {
 			$line .= " -static-libgcc";
 		} elsif ($crt eq "shared" || $crt eq "") {
-			$line .= " -shared-libgcc";
+#			$line .= " -shared-libgcc";
 		} else {
 			Error ("unknown LIBC type: $crt");
 		}

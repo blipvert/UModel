@@ -17,7 +17,7 @@
 #endif
 
 #if __clang__
-#	define FORCEINLINEOPERATOR
+#	define FORCEINLINEOPERATOR FORCEINLINE
 #else
 #	define FORCEINLINEOPERATOR FORCEINLINE
 #endif
@@ -66,7 +66,7 @@ namespace nv
 // Override new/delete
 
 #if __APPLE__
-_LIBCPP_NEW_DELETE_VIS void* operator new(std::size_t size)
+FORCEINLINE _LIBCPP_NEW_DELETE_VIS void* operator new(std::size_t size)
 #else
 FORCEINLINE void * operator new (size_t size) throw()
 #endif
@@ -88,7 +88,7 @@ FORCEINLINEOPERATOR void operator delete (void *p) throw()
 }
 
 #if __APPLE__
-_LIBCPP_NEW_DELETE_VIS void* operator new[](std::size_t size)
+FORCEINLINE _LIBCPP_NEW_DELETE_VIS void* operator new[](std::size_t size)
 #else
 void * operator new [] (size_t size) throw()
 #endif

@@ -183,7 +183,7 @@ typedef unsigned long long		uint64;
 #endif
 
 #if __clang__
-#	define FORCEINLINEOPERATOR
+#	define FORCEINLINEOPERATOR FORCEINLINE
 #else
 #	define FORCEINLINEOPERATOR FORCEINLINE
 #endif
