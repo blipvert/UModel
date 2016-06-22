@@ -94,6 +94,7 @@ extern CUmodelApp GApplication;
 void InitClassAndExportSystems(int Game);
 bool ExportObjects(const TArray<UObject*> *Objects = NULL, IProgressCallback* progress = NULL);
 void DisplayPackageStats(const TArray<UnPackage*> &Packages);
+void DisplayPackageTables(const TArray<UnPackage*> &Packages);
 
 
 #endif // __UMODEL_APP_H__

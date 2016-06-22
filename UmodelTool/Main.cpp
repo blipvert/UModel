@@ -362,6 +362,7 @@ static void PrintUsage()
 			"    -log=file       write log to the specified file\n"
 			"    -dump           dump object information to console\n"
 			"    -pkginfo        load package and display its information\n"
+			"    -tables         dump package tables\n"
 #if SHOW_HIDDEN_SWITCHES
 			"    -check          check some assumptions, no other actions performed\n"
 #	if VSTUDIO_INTEGRATION
@@ -511,6 +512,33 @@ static int CompareClassStats(const ClassStats* p1, const ClassStats* p2)
 	return stricmp(p1->Name, p2->Name);
 }
 
+void DisplayPackageTables(const TArray<UnPackage*> &Packages)
+{
+	guard(DisplayPackageStats);
+	char namebuf[2048];
+	
+	for (int i = 0; i < Packages.Num(); i++)
+	{
+		
+		UnPackage* pkg = Packages[i];
+		
+		appPrintf("Name table\n");
+
+		for (int j = 0; j < pkg->Summary.NameCount; j++)
+		{
+			appPrintf("\t%d %s\n", j, pkg->NameTable[j]);
+		}
+
+		appPrintf("Export table\n");
+		for (int j = 0; j < pkg->Summary.ExportCount; j++)
+		{
+			const FObjectExport &Exp = pkg->ExportTable[j];
+			pkg->GetFullExportName(Exp, namebuf, sizeof(namebuf));
+			appPrintf("\t%d %s\n", j, namebuf);
+		}
+	}
+	unguard;
+}
 void DisplayPackageStats(const TArray<UnPackage*> &Packages)
 {
 	guard(DisplayPackageStats);
@@ -659,6 +687,7 @@ int main(int argc, char **argv)
 		CMD_Dump,
 		CMD_Check,
 		CMD_PkgInfo,
+		CMD_Tables,
 		CMD_List,
 		CMD_Export,
 	};
@@ -686,6 +715,7 @@ int main(int argc, char **argv)
 			OPT_VALUE("check",   mainCmd, CMD_Check)
 			OPT_VALUE("export",  mainCmd, CMD_Export)
 			OPT_VALUE("pkginfo", mainCmd, CMD_PkgInfo)
+			OPT_VALUE("tables",  mainCmd, CMD_Tables)
 			OPT_VALUE("list",    mainCmd, CMD_List)
 #if VSTUDIO_INTEGRATION
 			OPT_BOOL ("debug",   GUseDebugger)
@@ -934,6 +964,12 @@ int main(int argc, char **argv)
 	{
 		DisplayPackageStats(Packages);
 		return 0;					// already displayed when loaded package; extend it?
+	}
+	
+	if (mainCmd == CMD_Tables)
+	{
+		DisplayPackageTables(Packages);
+		return 0;
 	}
 
 	// get requested object info
