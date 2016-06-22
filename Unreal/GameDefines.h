@@ -65,7 +65,7 @@
 #define AA3				1		// America's Army 3
 #define LEGENDARY		1		// Legendary: Pandora's Box
 #define TERA			1		// TERA: The Exiled Realm of Arborea
-#define BLADENSOUL		1		// Blade & Soul
+#define BLADENSOUL		0		// Blade & Soul
 #define APB				1		// All Points Bulletin
 #define ALPHA_PR		1		// Alpha Protocol
 #define TRANSFORMERS	1		// Transformers: War for Cybertron, The Bourne Conspiracy, Transformers: Dark of the Moon
@@ -86,7 +86,7 @@
 #define ARGONAUTS		1		// Rise of the Argonauts, Thor: God of Thunder
 #define GUNLEGEND		1		// Gunslayer Legend
 #define SPECIALFORCE2	1		// Special Force 2
-#define TAO_YUAN		1
+#define TAO_YUAN		0
 #define TRIBES4			1		// Tribes: Ascend
 #define DISHONORED		1
 #define FABLE			1		// Fable: The Journey, Fable Anniversary
@@ -111,7 +111,7 @@
 #define METRO_CONF		1		// Metro Conflict
 #define SMITE			1
 #define DUNDEF			1		// Dungeon Defenders
-#define DEVILS_THIRD	1		// Devil's Third
+#define DEVILS_THIRD	0		// Devil's Third
 //#define USE_XDK			1		// use some proprietary code for XBox360 support
 
 // Midway UE3 games -- make common define ??
