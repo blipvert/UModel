@@ -676,6 +676,8 @@ sub AddObjectList {
 				$options .= " -Os";
 			} elsif ($opt eq "speed") {
 				$options .= " -O3";
+                        } elsif ($opt eq "debug") {
+                                $options .= " -g";
 			} elsif ($opt ne "") {
 				Warning ("unknown OPTIMIZE option: [$opt]");
 			}

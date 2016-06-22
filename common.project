@@ -3,11 +3,10 @@
 LIBC       = shared
 #MAPFILES   = 1
 CONSOLE    = 1
-OPTIMIZE   = size
+OPTIMIZE   = debug
 
 PDB        = 2				# keep enabled, executable is almost the same, except embedded link to pdb file
 OLDCRT     = 1
-
 
 #------------------------------------------------
 #	Compiler-specific options
