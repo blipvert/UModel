@@ -677,7 +677,7 @@ sub AddObjectList {
 			} elsif ($opt eq "speed") {
 				$options .= " -O3";
                         } elsif ($opt eq "debug") {
-                                $options .= " -g";
+                                $options .= " -g3 -fno-omit-frame-pointer -funwind-tables -fstack-protector -fno-optimize-sibling-calls";
 			} elsif ($opt ne "") {
 				Warning ("unknown OPTIMIZE option: [$opt]");
 			}
