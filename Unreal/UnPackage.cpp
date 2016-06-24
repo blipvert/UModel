@@ -2809,7 +2809,8 @@ UnPackage *UnPackage::LoadPackage(const char *Name, bool silent)
 		if (info->Package)
 			return info->Package;
 		// Load the package.
-		UnPackage* package = new UnPackage(info->RelativeName, appCreateFileReader(info), silent);
+		FArchive *Ar = appCreateFileReader(info);
+		UnPackage* package = new UnPackage(info->RelativeName, Ar, silent);
 		// Cache pointer in CGameFileInfo so next time it will be found quickly.
 		const_cast<CGameFileInfo*>(info)->Package = package;
 		return package;
