@@ -12,7 +12,7 @@ OLDCRT     = 1
 #	Compiler-specific options
 #------------------------------------------------
 
-WARNINGS   =				# warnings for our source code (i.e. excluding thirs-parties), empty by default
+WARNINGS   = -w				# warnings for our source code (i.e. excluding thirs-parties), empty by default
 
 !if "$COMPILER" eq "VisualC"
 	CPP_EXCEPT = 0										# used with WIN32_USE_SEH in Core.h
