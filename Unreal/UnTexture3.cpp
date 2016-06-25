@@ -835,8 +835,10 @@ bool UTexture2D::GetTextureData(CTextureData &TexData) const
 		intFormat = TPF_V8U8;
 	else if (Format == PF_BC5)
 		intFormat = TPF_BC5;
+#if THIEF
 	else if (Format == PF_BC7)
 		intFormat = TPF_BC7;
+#endif
 	else if (Format == PF_A1)
 		intFormat = TPF_A1;
 #if MASSEFF
@@ -846,12 +848,16 @@ bool UTexture2D::GetTextureData(CTextureData &TexData) const
 		intFormat = TPF_BC5;
 #endif // MASSEFF
 #if UNREAL4
+#if SUPPORT_IPHONE
 	else if (Format == PF_PVRTC2)
 		intFormat = TPF_PVRTC2;
 	else if (Format == PF_PVRTC4)
 		intFormat = TPF_PVRTC4;
+#endif // SUPPORT_IPHONE
+#if SUPPORT_ANDROID
 	else if (Format == PF_ETC1)
 		intFormat = TPF_ETC1;
+#endif // SUPPORT_ANDROID
 //!!	else if (Format == PF_ETC2_RGB)		// GL_COMPRESSED_RGB8_ETC2
 //!!	else if (Format == PF_ETC2_RGBA)	// GL_COMPRESSED_RGBA8_ETC2_EAC
 #endif // UNREAL4
