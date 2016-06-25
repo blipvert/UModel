@@ -469,8 +469,6 @@ void FArchive::Printf(const char *fmt, ...)
 	FFileArchive classes
 -----------------------------------------------------------------------------*/
 
-#define ArPos			SomethingBad		// guard to not use ArPos here, use ArPos64 instead
-
 #if _WIN32
 
 #define fopen64			fopen
@@ -519,12 +517,13 @@ FFileArchive::~FFileArchive()
 
 void FFileArchive::Seek(int Pos)
 {
-	ArPos64 = Pos;
+	Seek64(Pos);
 }
 
 void FFileArchive::Seek64(int64 Pos)
 {
 	ArPos64 = Pos;
+	ArPos = (int)Pos;
 }
 
 int FFileArchive::Tell() const
@@ -587,6 +586,8 @@ bool FFileArchive::OpenFile(const char *Mode)
 	return false;
 	unguard;
 }
+
+#define ArPos			SomethingBad		// guard to not use ArPos here, use ArPos64 instead
 
 FFileReader::FFileReader(const char *Filename, unsigned InOptions)
 :	FFileArchive(Filename, Options)
