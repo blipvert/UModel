@@ -88,7 +88,7 @@ case "$PLATFORM" in
 		make -j 4 -f Makefile || exit 1	# use 4 jobs for build
 		;;
 	darwin*)
-		gmake -f Makefile || exit 1
+		gmake -j 4 -f Makefile || exit 1	# use 4 jobs for build
 		;;
 	*)
 		echo "Unknown PLATFORM=\"$PLATFORM\""
