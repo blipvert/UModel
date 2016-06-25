@@ -5,7 +5,7 @@
 #define UNREAL1			1
 #define UNREAL2			1
 #define UNREAL25		1
-#define UNREAL2X			1
+#define UNREAL2X		1
 #define UNREAL3			1
 #define UNREAL4			1
 #define SPECIAL_TAGS	1		// games with different PACKAGE_FILE_TAG
