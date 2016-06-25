@@ -18,11 +18,14 @@
 #define XIII			1
 
 // requires UNREAL1
+#if UNREAL1
 #define DEUS_EX			1
 #define RUNE			1
 #define UNDYING			1
+#endif
 
 // requires UNREAL25
+#if UNREAL25
 #define TRIBES3			1
 #define SWAT4			1
 #define RAGNAROK2		1
@@ -31,12 +34,13 @@
 #define VANGUARD		1		// Vanguard: Saga of Heroes
 #define LEAD			1		// UbiSoft LEAD Engine (Splinter Cell: Conviction)
 #define EOS				1		// Echo of Soul
-
+#endif
 // UE2X
 #define UC1				1
 #define UC2				1
 
 // requires UNREAL3
+#if UNREAL3
 #define SUPPORT_XBOX360	1		// XBox360 support
 #define SUPPORT_IPHONE	1		// iPhone/iPad support
 #define SUPPORT_ANDROID	1		// Android support
@@ -120,6 +124,7 @@
 #define MKVSDC			1		// Mortal Kombat vs. DC Universe, Mortal Kombat, Injustice: Gods Among Us
 #define STRANGLE		1		// Stranglehold
 #define TNA_IMPACT		1		// TNA iMPACT!
+#endif
 
 #define SPECIAL_TAGS	1		// games with different PACKAGE_FILE_TAG
 
