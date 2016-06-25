@@ -19,14 +19,14 @@
 #define LOCO			1		// Land of Chaos Online
 #define BATTLE_TERR		1		// Battle Territory Online
 #define XIII			1
-#endif
+#endif	// UNREAL2
 
 // requires UNREAL1
 #if UNREAL1
 #define DEUS_EX			1
 #define RUNE			1
 #define UNDYING			1
-#endif
+#endif	// UNREAL1
 
 // requires UNREAL25
 #if UNREAL25
@@ -38,12 +38,12 @@
 #define VANGUARD		1		// Vanguard: Saga of Heroes
 #define LEAD			1		// UbiSoft LEAD Engine (Splinter Cell: Conviction)
 #define EOS				1		// Echo of Soul
-#endif
+#endif	// UNREAL25
 // UE2X
 #if UNREAL2X
 #define UC1				1
 #define UC2				1
-#endif
+#endif  // UNREAL2X
 
 // requires UNREAL3
 #if UNREAL3
@@ -130,7 +130,7 @@
 #define MKVSDC			1		// Mortal Kombat vs. DC Universe, Mortal Kombat, Injustice: Gods Among Us
 #define STRANGLE		1		// Stranglehold
 #define TNA_IMPACT		1		// TNA iMPACT!
-#endif
+#endif  // UNREAL3
 
 #define SPECIAL_TAGS	1		// games with different PACKAGE_FILE_TAG
 
