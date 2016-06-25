@@ -8,6 +8,7 @@
 #define UNREAL2X			1
 #define UNREAL3			1
 #define UNREAL4			1
+#define SPECIAL_TAGS	1		// games with different PACKAGE_FILE_TAG
 
 // UE2 (supported by default)
 #if UNREAL2
@@ -132,6 +133,5 @@
 #define TNA_IMPACT		1		// TNA iMPACT!
 #endif  // UNREAL3
 
-#define SPECIAL_TAGS	1		// games with different PACKAGE_FILE_TAG
 
 #endif // __GAME_DEFINES_H__
