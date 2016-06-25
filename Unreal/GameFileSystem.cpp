@@ -692,7 +692,8 @@ FArchive *appCreateFileReader(const CGameFileInfo *info)
 		// regular file
 		char buf[MAX_PACKAGE_PATH];
 		appSprintf(ARRAY_ARG(buf), "%s/%s", RootDirectory, info->RelativeName);
-		return new FFileReader(buf);
+		FFileReader *fAr = new FFileReader(buf);
+		return fAr;
 	}
 	else
 	{
