@@ -53,7 +53,9 @@
 #define SUPPORT_ANDROID	1		// Android support
 
 #define ENDWAR			1		// EndWar
+#if TRIBES3
 #define BIOSHOCK		1		//!! requires UNREAL3 and TRIBES3
+#endif
 #define DOH				1		// Destroy All Humans
 #define ARMYOF2			1		// Army of Two
 #define MASSEFF			1		// Mass Effect
