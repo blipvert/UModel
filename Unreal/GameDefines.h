@@ -124,14 +124,17 @@
 #define DUNDEF			1		// Dungeon Defenders
 #define DEVILS_THIRD	0		// Devil's Third
 //#define USE_XDK			1		// use some proprietary code for XBox360 support
+#endif  // UNREAL3
 
 // Midway UE3 games -- make common define ??
+
+#if UNREAL3 && UNREAL4
 #define A51				1		// Blacksite: Area 51
 #define WHEELMAN		1		//?? incomplete
 #define MKVSDC			1		// Mortal Kombat vs. DC Universe, Mortal Kombat, Injustice: Gods Among Us
 #define STRANGLE		1		// Stranglehold
 #define TNA_IMPACT		1		// TNA iMPACT!
-#endif  // UNREAL3
+#endif UNREAL3 && UNREAL4
 
 
 #endif // __GAME_DEFINES_H__
