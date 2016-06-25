@@ -821,7 +821,11 @@ bool UTexture2D::GetTextureData(CTextureData &TexData) const
 #endif // TRIBES4
 
 	ETexturePixelFormat intFormat;
-	if (Format == PF_A8R8G8B8 || Format == PF_B8G8R8A8)	// PF_A8R8G8B8 was renamed to PF_B8G8R8A8
+	if (Format == PF_A8R8G8B8
+#if UNREAL4
+		|| Format == PF_B8G8R8A8	// PF_A8R8G8B8 was renamed to PF_B8G8R8A8
+#endif
+	)
 		intFormat = TPF_BGRA8;
 	else if (Format == PF_DXT1)
 		intFormat = TPF_DXT1;

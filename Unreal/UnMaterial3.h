@@ -94,7 +94,9 @@ public:
 	float			UnpackMin[4];
 	float			UnpackMax[4];
 	FByteBulkData	SourceArt;
+#if UNREAL4
 	FTextureSource	Source;
+#endif
 
 	UTexture3()
 	{
