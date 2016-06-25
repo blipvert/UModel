@@ -71,6 +71,7 @@ fi
 # update makefile when needed
 # [ $makefile -ot $project ] &&
 $root/Tools/genmake $project.project TARGET=$PLATFORM > Makefile
+rm -fr obj
 
 # build
 case "$PLATFORM" in
