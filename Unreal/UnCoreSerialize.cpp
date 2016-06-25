@@ -573,7 +573,8 @@ bool FFileArchive::OpenFile(const char *Mode)
 	guard(FFileArchive::OpenFile);
 	assert(!IsOpen());
 
-	ArPos64 = FilePos = 0;
+	Seek64(0);
+	FilePos = 0;
 	Buffer = (byte*)appMalloc(FILE_BUFFER_SIZE);
 	BufferPos = 0;
 	BufferSize = 0;
@@ -631,7 +632,7 @@ void FFileReader::Serialize(void *data, int size)
 				GNumSerialize++;
 				GSerializeBytes += size;
 			#endif
-				ArPos64 += size;
+				Seek64(ArPos64 + size);
 				FilePos += size;
 				return;
 			}
@@ -660,7 +661,7 @@ void FFileReader::Serialize(void *data, int size)
 		memcpy(data, Buffer + LocalPos, CanCopy);
 		data = OffsetPointer(data, CanCopy);
 		size -= CanCopy;
-		ArPos64 += CanCopy;
+		Seek64(ArPos64 + CanCopy);
 	}
 
 	unguardf("File=%s", ShortName);
@@ -755,7 +756,7 @@ void FFileWriter::Serialize(void *data, int size)
 				GNumSerialize++;
 				GSerializeBytes += size;
 			#endif
-				ArPos64 += size;
+				Seek64(ArPos64 + size);
 				FilePos += size;
 				return;
 			}
@@ -773,7 +774,7 @@ void FFileWriter::Serialize(void *data, int size)
 		memcpy(Buffer + LocalPos, data, CanCopy);
 		data = OffsetPointer(data, CanCopy);
 		size -= CanCopy;
-		ArPos64 += CanCopy;
+		Seek64(ArPos64 + CanCopy);
 		BufferSize = max(BufferSize, LocalPos + CanCopy);
 	}
 
