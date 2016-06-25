@@ -977,6 +977,7 @@ void CTypeInfo::SerializeProps(FArchive &Ar, void *ObjectData) const
 		Ar << Tag;
 		if (!Tag.IsValid())						// end marker
 			break;
+		//appPrintf("Pos %08x: Tag %s\n", PropTagPos, Tag.Name.Str);
 
 	read_property:
 		guard(ReadProperty);
