@@ -58,6 +58,7 @@ export vc_ver=10
 [ "$render"  ] || render=1
 
 makefile="makefile-$PLATFORM"
+rm -fr obj
 
 # build shader includes before call to genmake
 if [ $render -eq 1 ]; then
@@ -71,7 +72,6 @@ fi
 # update makefile when needed
 # [ $makefile -ot $project ] &&
 $root/Tools/genmake $project.project TARGET=$PLATFORM > Makefile
-rm -fr obj
 
 # build
 case "$PLATFORM" in
