@@ -630,6 +630,13 @@ static void CommandLineError(const char *fmt, ...)
 	exit(1);
 }
 
+static void PrintObjRef(const UnPackage &Package, const FObjectRef *ObjRef, bool IsPkg=false)
+{
+	if (ObjRef) {
+		PrintObjRef(Package, Package.GetObjectRef(ObjRef->PackageIndex), true);
+		appPrintf("%s%s", *ObjRef->ObjectName, IsPkg ? "." : "");
+	}
+}
 
 #define OPT_BOOL(name,var)				{ name, (byte*)&var, true  },
 #define OPT_NBOOL(name,var)				{ name, (byte*)&var, false },
@@ -916,7 +923,9 @@ int main(int argc, char **argv)
 		for (int i = 0; i < MainPackage->Summary.ExportCount; i++)
 		{
 			const FObjectExport &Exp = MainPackage->ExportTable[i];
-			appPrintf("%4d %8X %8X %s %s\n", i+1, Exp.SerialOffset, Exp.SerialSize, MainPackage->GetObjectName(Exp.ClassIndex), *Exp.ObjectName);
+			appPrintf("%4d %8X %8X %s ", i+1, Exp.SerialOffset, Exp.SerialSize, MainPackage->GetObjectName(Exp.ClassIndex));
+			PrintObjRef(*MainPackage, (FObjectRef *)&Exp);
+			appPrintf("\n");
 		}
 		unguard;
 		return 0;
@@ -941,8 +950,9 @@ int main(int argc, char **argv)
 		for (int i = 0; i < MainPackage->Summary.ImportCount; i++)
 		{
 			const FObjectImport &Imp = MainPackage->ImportTable[i];
-			appPrintf("%4d %5d %s %s %s%s\n", (i+1), Imp.PackageIndex, *Imp.ClassName, *Imp.ClassPackage, *Imp.ObjectName,
-				Imp.Missing ? " (missing)" : "");
+			appPrintf("%4d %s %s ", i+1, *Imp.ClassName, *Imp.ClassPackage);
+			PrintObjRef(*MainPackage, (FObjectRef *)&Imp);
+			appPrintf("\n");
 		}
 		unguard;
 		return 0;
