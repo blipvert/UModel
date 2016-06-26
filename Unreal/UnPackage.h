@@ -138,12 +138,16 @@ struct FPackageFileSummary
 // other noticed values: 2
 #endif
 
-struct FObjectExport
+struct FObjectRef
+{
+	int		PackageIndex;				// object reference
+	FName		ObjectName;
+};
+
+struct FObjectExport : public FObjectRef
 {
 	int			ClassIndex;					// object reference
 	int			SuperIndex;					// object reference
-	int			PackageIndex;				// object reference
-	FName		ObjectName;
 	int			SerialSize;
 	int			SerialOffset;
 	UObject		*Object;					// not serialized, filled by object loader
@@ -165,12 +169,10 @@ struct FObjectExport
 };
 
 
-struct FObjectImport
+struct FObjectImport : public FObjectRef
 {
 	FName		ClassPackage;
 	FName		ClassName;
-	int			PackageIndex;
-	FName		ObjectName;
 	bool		Missing;			// not serialized
 
 	friend FArchive& operator<<(FArchive &Ar, FObjectImport &I);
@@ -265,22 +267,24 @@ public:
 		return ExportTable[index];
 	}
 
-	const char* GetObjectName(int PackageIndex) const	//?? GetExportClassName()
+	const FObjectRef* GetObjectRef(int PackageIndex) const
 	{
 		if (PackageIndex < 0)
 		{
-			//?? should point to 'Class' object
-			return GetImport(-PackageIndex-1).ObjectName;
+			return &GetImport(-PackageIndex-1);
 		}
-		else if (PackageIndex > 0)
+		if (PackageIndex > 0)
 		{
-			//?? should point to 'Class' object
-			return GetExport(PackageIndex-1).ObjectName;
+			return &GetExport(PackageIndex-1);
 		}
-		else // PackageIndex == 0
-		{
-			return "Class";
-		}
+		return 0;
+	}
+
+	const char* GetObjectName(int PackageIndex) const	//?? GetExportClassName()
+	{
+		const FObjectRef *ObjRef = GetObjectRef(PackageIndex);
+
+		return ObjRef ? ObjRef->ObjectName : "Class";
 	}
 
 	int FindExport(const char *name, const char *className = NULL, int firstIndex = 0) const;
