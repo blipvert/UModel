@@ -1000,12 +1000,12 @@ void CTypeInfo::SerializeProps(FArchive &Ar, void *ObjectData) const
 			TypeName = GetTypeName(Tag.Type);
 		}
 
-#if DEBUG_PROPS
-		appPrintf("-- %s \"%s::%s\" [%d] size=%d enum=%s struc=%s\n", TypeName, Name, *Tag.Name,
-			Tag.ArrayIndex, Tag.DataSize, *Tag.EnumName, *Tag.StrucName);
-#endif // DEBUG_PROPS
-
 		int StopPos = Ar.Tell() + Tag.DataSize;	// for verification
+
+#if DEBUG_PROPS
+		appPrintf("-- %s \"%s::%s\" [%d] size=%d enum=%s struc=%s stop=%08x\n", TypeName, Name, *Tag.Name,
+			Tag.ArrayIndex, Tag.DataSize, *Tag.EnumName, *Tag.StrucName, StopPos);
+#endif // DEBUG_PROPS
 
 		const CPropInfo *Prop = FindProperty(Tag.Name);
 		if (!Prop || !Prop->TypeName)	// Prop->TypeName==NULL when declared with PROP_DROP() macro
