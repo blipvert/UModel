@@ -913,7 +913,7 @@ int main(int argc, char **argv)
 		for (int i = 0; i < MainPackage->Summary.ExportCount; i++)
 		{
 			const FObjectExport &Exp = MainPackage->ExportTable[i];
-			appPrintf("%4d %8X %8X %s %s\n", i, Exp.SerialOffset, Exp.SerialSize, MainPackage->GetObjectName(Exp.ClassIndex), *Exp.ObjectName);
+			appPrintf("%4d %8X %8X %s %s\n", i+1, Exp.SerialOffset, Exp.SerialSize, MainPackage->GetObjectName(Exp.ClassIndex), *Exp.ObjectName);
 		}
 		unguard;
 		return 0;
