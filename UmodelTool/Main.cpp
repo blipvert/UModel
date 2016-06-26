@@ -363,6 +363,7 @@ static void PrintUsage()
 			"    -dump           dump object information to console\n"
 			"    -pkginfo        load package and display its information\n"
 			"    -names          dump package nametable\n"
+			"    -imports        dump package import table\n"
 #if SHOW_HIDDEN_SWITCHES
 			"    -check          check some assumptions, no other actions performed\n"
 #	if VSTUDIO_INTEGRATION
@@ -662,6 +663,7 @@ int main(int argc, char **argv)
 		CMD_PkgInfo,
 		CMD_Names,
 		CMD_List,
+		CMD_Imports,
 		CMD_Export,
 	};
 
@@ -690,6 +692,7 @@ int main(int argc, char **argv)
 			OPT_VALUE("pkginfo", mainCmd, CMD_PkgInfo)
 			OPT_VALUE("names",   mainCmd, CMD_Names)
 			OPT_VALUE("list",    mainCmd, CMD_List)
+			OPT_VALUE("imports", mainCmd, CMD_Imports)
 #if VSTUDIO_INTEGRATION
 			OPT_BOOL ("debug",   GUseDebugger)
 #endif
@@ -926,6 +929,20 @@ int main(int argc, char **argv)
 		for (int i = 0; i < MainPackage->Summary.NameCount; i++)
 		{
 			appPrintf("%4d %s\n", i, MainPackage->NameTable[i]);
+		}
+		unguard;
+		return 0;
+	}
+
+	if (mainCmd == CMD_Imports)
+	{
+		guard(Imports);
+		// dump package imports table
+		for (int i = 0; i < MainPackage->Summary.ImportCount; i++)
+		{
+			const FObjectImport &Imp = MainPackage->ImportTable[i];
+			appPrintf("%4d %5d %s %s %s%s\n", (i+1), Imp.PackageIndex, *Imp.ClassName, *Imp.ClassPackage, *Imp.ObjectName,
+				Imp.Missing ? " (missing)" : "");
 		}
 		unguard;
 		return 0;
