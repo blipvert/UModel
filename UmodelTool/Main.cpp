@@ -362,6 +362,7 @@ static void PrintUsage()
 			"    -log=file       write log to the specified file\n"
 			"    -dump           dump object information to console\n"
 			"    -pkginfo        load package and display its information\n"
+			"    -names          dump package nametable\n"
 #if SHOW_HIDDEN_SWITCHES
 			"    -check          check some assumptions, no other actions performed\n"
 #	if VSTUDIO_INTEGRATION
@@ -659,6 +660,7 @@ int main(int argc, char **argv)
 		CMD_Dump,
 		CMD_Check,
 		CMD_PkgInfo,
+		CMD_Names,
 		CMD_List,
 		CMD_Export,
 	};
@@ -686,6 +688,7 @@ int main(int argc, char **argv)
 			OPT_VALUE("check",   mainCmd, CMD_Check)
 			OPT_VALUE("export",  mainCmd, CMD_Export)
 			OPT_VALUE("pkginfo", mainCmd, CMD_PkgInfo)
+			OPT_VALUE("names",   mainCmd, CMD_Names)
 			OPT_VALUE("list",    mainCmd, CMD_List)
 #if VSTUDIO_INTEGRATION
 			OPT_BOOL ("debug",   GUseDebugger)
@@ -911,6 +914,18 @@ int main(int argc, char **argv)
 		{
 			const FObjectExport &Exp = MainPackage->ExportTable[i];
 			appPrintf("%4d %8X %8X %s %s\n", i, Exp.SerialOffset, Exp.SerialSize, MainPackage->GetObjectName(Exp.ClassIndex), *Exp.ObjectName);
+		}
+		unguard;
+		return 0;
+	}
+
+	if (mainCmd == CMD_Names)
+	{
+		guard(Names);
+		// dump package name table
+		for (int i = 0; i < MainPackage->Summary.NameCount; i++)
+		{
+			appPrintf("%4d %s\n", i, MainPackage->NameTable[i]);
 		}
 		unguard;
 		return 0;
