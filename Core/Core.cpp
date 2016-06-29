@@ -23,7 +23,7 @@ void appOpenLogFile(const char *filename)
 }
 
 
-void appPrintf(const char *fmt, ...)
+int appPrintf(const char *fmt, ...)
 {
 	va_list	argptr;
 	va_start(argptr, fmt);
@@ -39,6 +39,7 @@ void appPrintf(const char *fmt, ...)
 	if (IsDebuggerPresent())
 		OutputDebugString(buf);
 #endif
+	return len;
 }
 
 

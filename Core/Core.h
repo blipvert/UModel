@@ -271,7 +271,7 @@ inline void QSort(const char** array, int count, int (*cmpFunc)(const char**, co
 }
 
 void appOpenLogFile(const char *filename);
-void appPrintf(const char *fmt, ...);
+int appPrintf(const char *fmt, ...);
 
 extern bool GIsSwError;
 
