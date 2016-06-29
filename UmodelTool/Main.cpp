@@ -362,6 +362,7 @@ static void PrintUsage()
 			"    -log=file       write log to the specified file\n"
 			"    -dump           dump object information to console\n"
 			"    -pkginfo        load package and display its information\n"
+			"    -summary        display package file summary table\n"
 			"    -names          dump package nametable\n"
 			"    -imports        dump package import table\n"
 #if SHOW_HIDDEN_SWITCHES
@@ -402,7 +403,7 @@ static void PrintUsage()
 			"    -meshes         view meshes only\n"
 			"    -materials      view materials only (excluding textures)\n"
 			"    -anim=<set>     specify AnimSet to automatically attach to mesh\n"
- 			"\n"
+			"\n"
 			"Export options:\n"
 			"    -out=PATH       export everything into PATH instead of the current directory\n"
 			"    -all            export all linked objects too\n"
@@ -511,6 +512,72 @@ struct ClassStats
 static int CompareClassStats(const ClassStats* p1, const ClassStats* p2)
 {
 	return stricmp(p1->Name, p2->Name);
+}
+
+void DisplayPackageSummary(const UnPackage &Package)
+{
+	guard(DisplayPackageSummary);
+
+	appPrintf("Package summary:\n");
+	appPrintf("================\n");
+	appPrintf("Package name: %s\n\n", Package.Name);
+
+	const FPackageFileSummary &S = Package.Summary;
+
+	appPrintf("Tag:                %08X\n", S.Tag);
+	appPrintf("Version:            %d/%d\n", S.FileVersion, S.LicenseeVersion);
+	appPrintf("PackageFlags:       %08X\n", S.PackageFlags);
+	appPrintf("\n");
+	appPrintf("NameCount:          %d\n", S.NameCount);
+	appPrintf("NameOffset:         %d\n", S.NameOffset);
+	appPrintf("ExportCount:        %d\n", S.ExportCount);
+	appPrintf("ExportOffset:       %d\n", S.ExportOffset);
+	appPrintf("ImportCount:        %d\n", S.ImportCount);
+	appPrintf("ImportOffset:       %d\n", S.ImportOffset);
+	appPrintf("\n");
+	appPrintf("GUID:               %08X-%08X-%08X-%08X\n", S.Guid.A, S.Guid.B, S.Guid.C, S.Guid.D);
+	appPrintf("\n");
+
+	for (int i=0; i<S.Generations.Num(); ++i) {
+		int ccnt = 20 - appPrintf("Generations[%d]", i);
+		if (ccnt > 0)
+			appPrintf("%*s", ccnt);
+		const FGenerationInfo &Gen = S.Generations[i];
+		appPrintf("ExportCount: %d, NameCount: %d", Gen.ExportCount, Gen.NameCount);
+#if UNREAL3
+		if (Package.ArVer >= 322)
+			appPrintf(", NetObjectCount: %d", Gen.NetObjectCount);
+#endif // UNREAL3
+		appPrintf("\n");
+	}
+
+#if UNREAL3
+	appPrintf("\n");
+	appPrintf("HeadersSize:        %d\n", S.HeadersSize);
+	appPrintf("PackageGroup:       %s\n", *(S.PackageGroup));
+	appPrintf("DependsOffset:      %d\n", S.DependsOffset);
+	appPrintf("HeaderSizeCopy:     %d\n", S.f38);
+	appPrintf("Reserved:           %08X\n", S.f3C);
+	appPrintf("Reserved:           %08X\n", S.f40);
+	appPrintf("\n");
+	appPrintf("EngineVersion:      %d\n", S.EngineVersion);
+	appPrintf("CookerVersion:      %d\n", S.CookerVersion);
+	appPrintf("\n");
+	appPrintf("CompressionFlags:   %08X\n", S.CompressionFlags);
+	for (int i=0; i<S.CompressedChunks.Num(); ++i) {
+		int ccnt = 28 - appPrintf("CompressedChunk[%d]:", i);
+		if (ccnt > 0)
+			appPrintf("%*s", ccnt);
+		const FCompressedChunk &Ch = S.CompressedChunks[i];
+		appPrintf("%d @ %d -> %d @ %d\n",
+			Ch.CompressedSize, Ch.CompressedOffset,
+			Ch.UncompressedSize, Ch.UncompressedOffset);
+	}
+	appPrintf("\n");
+	appPrintf("Unknown:            %08X\n", S.U3unk60);
+#endif
+
+	unguard;
 }
 
 void DisplayPackageStats(const TArray<UnPackage*> &Packages)
@@ -668,6 +735,7 @@ int main(int argc, char **argv)
 		CMD_Dump,
 		CMD_Check,
 		CMD_PkgInfo,
+		CMD_Summary,
 		CMD_Names,
 		CMD_List,
 		CMD_Imports,
@@ -697,6 +765,7 @@ int main(int argc, char **argv)
 			OPT_VALUE("check",   mainCmd, CMD_Check)
 			OPT_VALUE("export",  mainCmd, CMD_Export)
 			OPT_VALUE("pkginfo", mainCmd, CMD_PkgInfo)
+			OPT_VALUE("summary", mainCmd, CMD_Summary)
 			OPT_VALUE("names",   mainCmd, CMD_Names)
 			OPT_VALUE("list",    mainCmd, CMD_List)
 			OPT_VALUE("imports", mainCmd, CMD_Imports)
@@ -976,6 +1045,12 @@ int main(int argc, char **argv)
 	{
 		DisplayPackageStats(Packages);
 		return 0;					// already displayed when loaded package; extend it?
+	}
+
+	if (mainCmd == CMD_Summary)
+	{
+		DisplayPackageSummary(*MainPackage);
+		return 0;
 	}
 
 	// get requested object info
