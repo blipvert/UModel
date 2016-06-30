@@ -560,6 +560,15 @@ void DisplayPackageSummary(const UnPackage &Package)
 	appPrintf("Reserved:           %08X\n", S.f3C);
 	appPrintf("Reserved:           %08X\n", S.f40);
 	appPrintf("\n");
+
+	assert(S.NameOffset <= S.ImportOffset);
+	assert(S.ImportOffset <= S.ExportOffset);
+	appPrintf("NameTable:          %d - %d (%d bytes)\n", S.NameOffset, S.ImportOffset, S.ImportOffset - S.NameOffset);
+	appPrintf("ImportTable:        %d - %d (%d bytes)\n", S.ImportOffset, S.ExportOffset, S.ExportOffset - S.ImportOffset);
+	appPrintf("ExportTable:        %d - %d (%d bytes)\n", S.ExportOffset, S.DependsOffset, S.DependsOffset - S.ExportOffset);
+	appPrintf("DependsTable:       %d - %d (%d bytes)\n", S.DependsOffset, S.HeadersSize, S.HeadersSize - S.DependsOffset);
+	appPrintf("\n");
+
 	appPrintf("EngineVersion:      %d\n", S.EngineVersion);
 	appPrintf("CookerVersion:      %d\n", S.CookerVersion);
 	appPrintf("\n");
